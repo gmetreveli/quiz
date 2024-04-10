@@ -9,12 +9,26 @@ export default function Trivia({ data, setStop, qNum, setQNum }) {
     setQuestion(data[qNum - 1]);
   }, [data, qNum]);
 
+  const delay = (duration, callback) => {
+    setTimeout(() => {
+      callback();
+    }, duration);
+  };
+
   const handleClick = (a) => {
     setSelectedAnswer(a);
     setClassName("answer active");
-    setTimeout(() => {
-      setClassName(a.correct ? "answer correct" : "answer wrong");
-    }, 3000);
+    delay(3000, () =>
+      setClassName(a.correct ? "answer correct" : "answer wrong")
+    );
+    delay(7000, () => {
+      if (a.correct) {
+        setQNum((prev) => prev + 1);
+        setSelectedAnswer(null);
+      } else {
+        setStop(true);
+      }
+    });
   };
 
   return (
