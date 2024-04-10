@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Trivia({ data, setTimeOut, qNum, setQNum }) {
+export default function Trivia({ data, setStop, qNum, setQNum }) {
   const [question, setQuestion] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [className, setClassName] = useState("answer");
@@ -12,6 +12,9 @@ export default function Trivia({ data, setTimeOut, qNum, setQNum }) {
   const handleClick = (a) => {
     setSelectedAnswer(a);
     setClassName("answer active");
+    setTimeout(() => {
+      setClassName(a.correct ? "answer correct" : "answer wrong");
+    }, 3000);
   };
 
   return (
@@ -21,7 +24,7 @@ export default function Trivia({ data, setTimeOut, qNum, setQNum }) {
         {question?.answers.map((a) => (
           <div
             className={selectedAnswer === a ? className : "answer"}
-            onClick={handleClick(a)}
+            onClick={() => handleClick(a)}
           >
             {a.text}
           </div>
